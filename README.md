@@ -177,17 +177,47 @@ The dataset contains images with vehicles, pedestrians and cyclists in different
 <img src="/images/S3.png"/>
 
 #### Cross validation
-The dataset is shuffled and splitted into 75% as `training`, 15% as `validation` and 10% as`test` sets.
+Out of many available cross validation methods, I have used a simple training, validation, test split.
+
+At the beginning `/data/waymo/training_and_validation` folder contained 97 `.tfrecord` files. 
+
+With `create_splits.py` the dataset is splitted into `training`, `validation` and `test` sets.
+
+- `train`: 75% (72 tfrecords)
+- `val`: 15% (15 tfrecords)
+- `test` 10% (10 tfrecords)
+
+
 
 ### Training
 #### Reference experiment
 `SSD Resnet50 640x640` model is used and trained for this project. The configuration file `pipeline_new.config` is placed in `experiments/reference` folder.
 
-<img src="/images/L1.png"/>
-<img src="/images/LR.png"/>
+<img src="/images/reference/L1.png"/>
+<img src="/images/reference/LR.png"/>
+<img src="/images/reference/E1.png"/>
+<img src="/images/reference/E2.png"/>
+<img src="/images/reference/T.png"/>
 
-<img src="/images/E1.png"/>
-<img src="/images/E2.png"/>
-<img src="/images/T.png"/>
+
+#### Improve on the reference
+The configuration file `pipeline_new.config` is placed in `experiments/improved` folder.
+
+Increasing the batch size from `2` to `4` made a big difference on `Loss`.
+```
+train_config {
+  batch_size: 4
+  data_augmentation_options {
+    random_horizontal_flip {
+    }
+  }
+```
+
+<img src="/images/improved/L1.png"/>
+<img src="/images/improved/LR.png"/>
+
+<img src="/images/improved/E1.png"/>
+<img src="/images/improved/E2.png"/>
+<img src="/images/improved/T.png"/>
 
 <img src="/images/animation.gif"/>
